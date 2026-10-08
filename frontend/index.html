@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FTMS // Junction A Control Console</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="scada-container">
+    <!-- Top Telemetry Bar -->
+    <header class="top-bar">
+      <div class="bar-brand">
+        <div class="system-ident">
+          <span class="pulse-indicator" id="connection-pulse"></span>
+          <span class="sys-code">FTMS-SCADA</span>
+          <span class="sys-divider">/</span>
+          <span class="sys-sub">JUNCTION A CONTROL CONSOLE</span>
+        </div>
+      </div>
+
+      <div class="bar-telemetry">
+        <div class="telemetry-item">
+          <span class="item-label">INTERSECTION</span>
+          <div class="select-wrapper">
+            <select id="junction-select">
+              <option value="A">Junction A (Assembly Corridor)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="telemetry-item">
+          <span class="item-label">SYSTEM MODE</span>
+          <span class="status-badge mode-badge" id="mode-badge">AUTOMATIC</span>
+        </div>
+
+        <div class="telemetry-item">
+          <span class="item-label">PLC CONTROLLER</span>
+          <span class="status-badge controller-badge" id="controller-badge">CONTROLLER ONLINE</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Global System Banner -->
+    <div id="alert-banner" class="alert-banner hidden">
+      <span class="alert-indicator-dot"></span>
+      <span id="alert-message">System notification</span>
+    </div>
+
+    <!-- Main Console Grid -->
+    <main class="console-grid">
+      <!-- Left: Visual Intersection & Physical Verification -->
+      <section class="panel-section visual-column">
+        <div class="card schematic-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <span class="section-tag">SCHEMATIC 01</span>
+              <h2>Real-Time Intersection Layout</h2>
+            </div>
+            <div class="phase-display">
+              <span class="phase-label">ACTIVE PHASE</span>
+              <span class="phase-value" id="phase-badge">NORTH_SOUTH</span>
+            </div>
+          </div>
+
+          <div class="crossroads-viewport">
+            <!-- Road Layout Canvas -->
+            <div class="crossroads-canvas">
+              <!-- North Arm -->
+              <div class="road-arm road-north">
+                <div class="arm-header">
+                  <span class="dir-code">N</span>
+                  <span class="arm-title">NORTH ROAD</span>
+                  <span class="queue-hud" id="queue-north">0 waiting</span>
+                </div>
+                <div class="road-surface">
+                  <div class="lane-divider-v"></div>
+                  <div class="stop-line-h"></div>
+                </div>
+                <div class="signal-housing" id="light-north">
+                  <div class="signal-visor"></div>
+                  <div class="signal-lens red" id="north-red"></div>
+                  <div class="signal-lens yellow" id="north-yellow"></div>
+                  <div class="signal-lens green" id="north-green"></div>
+                </div>
+              </div>
+
+              <!-- West Arm -->
+              <div class="road-arm road-west">
+                <div class="arm-header">
+                  <span class="dir-code">W</span>
+                  <span class="arm-title">WEST ROAD</span>
+                  <span class="queue-hud" id="queue-west">0 waiting</span>
+                </div>
+                <div class="road-surface">
+                  <div class="lane-divider-h"></div>
+                  <div class="stop-line-v"></div>
+                </div>
+                <div class="signal-housing" id="light-west">
+                  <div class="signal-visor"></div>
+                  <div class="signal-lens red" id="west-red"></div>
+                  <div class="signal-lens yellow" id="west-yellow"></div>
+                  <div class="signal-lens green" id="west-green"></div>
+                </div>
+              </div>
+
+              <!-- Central Conflict Intersection Box -->
+              <div class="intersection-box">
+                <div class="box-grid-markings"></div>
+                <div class="box-center-core">
+                  <span class="junction-id-tag">ZONE A</span>
+                  <span class="transition-pill hidden" id="transition-spinner">CLEARING</span>
+                </div>
+              </div>
+
+              <!-- East Arm -->
+              <div class="road-arm road-east">
+                <div class="signal-housing" id="light-east">
+                  <div class="signal-visor"></div>
+                  <div class="signal-lens red" id="east-red"></div>
+                  <div class="signal-lens yellow" id="east-yellow"></div>
+                  <div class="signal-lens green" id="east-green"></div>
+                </div>
+                <div class="road-surface">
+                  <div class="lane-divider-h"></div>
+                  <div class="stop-line-v"></div>
+                </div>
+                <div class="arm-header">
+                  <span class="queue-hud" id="queue-east">0 waiting</span>
+                  <span class="arm-title">EAST ROAD</span>
+                  <span class="dir-code">E</span>
+                </div>
+              </div>
+
+              <!-- South Arm -->
+              <div class="road-arm road-south">
+                <div class="signal-housing" id="light-south">
+                  <div class="signal-visor"></div>
+                  <div class="signal-lens red" id="south-red"></div>
+                  <div class="signal-lens yellow" id="south-yellow"></div>
+                  <div class="signal-lens green" id="south-green"></div>
+                </div>
+                <div class="road-surface">
+                  <div class="lane-divider-v"></div>
+                  <div class="stop-line-h"></div>
+                </div>
+                <div class="arm-header">
+                  <span class="dir-code">S</span>
+                  <span class="arm-title">SOUTH ROAD</span>
+                  <span class="queue-hud" id="queue-south">0 waiting</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Physical Signal Verification Table -->
+          <div class="verification-block">
+            <div class="block-header">
+              <span class="block-title">PHYSICAL SIGNAL STATE MATRIX</span>
+              <span class="block-sub">Desired vs Controller-Confirmed Hardware State</span>
+            </div>
+            <div class="matrix-table-wrap">
+              <table class="matrix-table">
+                <thead>
+                  <tr>
+                    <th>DIRECTION</th>
+                    <th>TARGET STATE</th>
+                    <th>HARDWARE ACK</th>
+                    <th>STATUS</th>
+                  </tr>
+                </thead>
+                <tbody id="signals-table-body">
+                  <tr><td>NORTH</td><td>-</td><td>-</td><td>-</td></tr>
+                  <tr><td>SOUTH</td><td>-</td><td>-</td><td>-</td></tr>
+                  <tr><td>EAST</td><td>-</td><td>-</td><td>-</td></tr>
+                  <tr><td>WEST</td><td>-</td><td>-</td><td>-</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right: Operator Overrides & Scenario Dispatcher -->
+      <section class="panel-section controls-column">
+        <!-- Manual Operator Interventions -->
+        <div class="card control-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <span class="section-tag">OVERRIDE DECK</span>
+              <h2>Manual Signal Intervention</h2>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="button-row">
+              <button class="btn btn-action" onclick="requestManual('NORTH')">
+                <span class="btn-indicator n-s"></span>
+                <span class="btn-text">Force North/South Green</span>
+              </button>
+              <button class="btn btn-action" onclick="requestManual('WEST')">
+                <span class="btn-indicator e-w"></span>
+                <span class="btn-text">Force East/West Green</span>
+              </button>
+              <button class="btn btn-neutral" onclick="returnAutomatic()">
+                <span class="btn-text">Return to Automatic Loop</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- IoT & Hardware Simulation Panel -->
+        <div class="card simulator-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <span class="section-tag">IOT GATEWAY & SIMULATION</span>
+              <h2>IoT Sensor & Physical Controller Simulation</h2>
+            </div>
+            <span class="telemetry-pill">REST / MQTT BRIDGE</span>
+          </div>
+          <div class="card-body">
+            <!-- Group 1: IoT Sensor Events -->
+            <div class="iot-subgroup">
+              <div class="subgroup-title">
+                <span class="subgroup-tag">01</span>
+                <span>VEHICLE DETECTION SENSORS (INDUCTION / RFID)</span>
+              </div>
+              <div class="scenario-grid">
+                <button class="scenario-btn" onclick="quickScenario('TRUCK_NORTH')">
+                  <span class="scenario-meta">SENSOR EVT-10001 &middot; NORTH</span>
+                  <span class="scenario-title">Truck Arrival (High Priority)</span>
+                </button>
+                
+                <button class="scenario-btn danger-border" onclick="quickScenario('EMERGENCY_EAST')">
+                  <span class="scenario-meta danger-text">SENSOR EVT-EMG &middot; EAST</span>
+                  <span class="scenario-title">Emergency Preemption Influx</span>
+                </button>
+                
+                <button class="scenario-btn" onclick="quickScenario('FORKLIFT_WEST')">
+                  <span class="scenario-meta">SENSOR EVT-10003 &middot; WEST</span>
+                  <span class="scenario-title">Forklift Arrival (Standard)</span>
+                </button>
+                
+                <button class="scenario-btn" onclick="quickScenario('DUPLICATE_EVENT')">
+                  <span class="scenario-meta">NETWORK RETRY DEMO</span>
+                  <span class="scenario-title">Duplicate Event (Idempotency)</span>
+                </button>
+                
+                <button class="scenario-btn" onclick="quickScenario('CLEAR_NORTH')">
+                  <span class="scenario-meta">SENSOR EVT-10002 &middot; NORTH</span>
+                  <span class="scenario-title">Vehicle Cleared (Departure)</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Group 2: IoT Physical Controller (PLC) -->
+            <div class="iot-subgroup">
+              <div class="subgroup-title">
+                <span class="subgroup-tag">02</span>
+                <span>PHYSICAL SIGNAL CONTROLLER (PLC / HARDWARE LINK)</span>
+              </div>
+              <div class="scenario-grid">
+                <button class="scenario-btn warning-border" onclick="quickScenario('CONTROLLER_OFFLINE')">
+                  <span class="scenario-meta warning-text">STATUS-301 &middot; OFFLINE</span>
+                  <span class="scenario-title">Simulate Controller Failure</span>
+                </button>
+
+                <button class="scenario-btn success-border" onclick="quickScenario('CONTROLLER_ONLINE')">
+                  <span class="scenario-meta success-text">STATUS-302 &middot; ONLINE</span>
+                  <span class="scenario-title">Restore Controller Link</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Custom Event Drawer -->
+            <div class="custom-event-drawer">
+              <div class="drawer-header">
+                <span class="drawer-title">CUSTOM IOT SENSOR EVENT INJECTION</span>
+              </div>
+              <div class="form-compact-grid">
+                <div class="input-cell">
+                  <label>Direction</label>
+                  <select id="sensor-direction">
+                    <option value="NORTH">North Arm</option>
+                    <option value="SOUTH">South Arm</option>
+                    <option value="EAST">East Arm</option>
+                    <option value="WEST">West Arm</option>
+                  </select>
+                </div>
+
+                <div class="input-cell">
+                  <label>Vehicle Class</label>
+                  <select id="sensor-vehicle-type">
+                    <option value="TRUCK">TRUCK (Priority High)</option>
+                    <option value="FORKLIFT">FORKLIFT (Priority Med)</option>
+                    <option value="EMPLOYEE_VEHICLE">EMPLOYEE_VEHICLE (Normal)</option>
+                    <option value="EMERGENCY">EMERGENCY (Preemption)</option>
+                  </select>
+                </div>
+
+                <div class="input-cell">
+                  <label>Vehicle ID</label>
+                  <input type="text" id="sensor-vehicle-id" value="VH-501" placeholder="e.g. VH-501">
+                </div>
+
+                <div class="input-cell actions-cell">
+                  <button class="btn btn-outline" onclick="submitCustomSensor('VEHICLE_ARRIVED')">Inject Arrived</button>
+                  <button class="btn btn-outline" onclick="submitCustomSensor('VEHICLE_CLEARED')">Inject Cleared</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom: Audit Stream -->
+      <section class="panel-section full-span-section">
+        <div class="card audit-stream-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <span class="section-tag">EVENT BUS AUDIT TRAIL</span>
+              <h2>Chronological State History</h2>
+            </div>
+            <div class="audit-toolbar">
+              <span class="bus-rate">POLLING 1.5s</span>
+              <button class="btn btn-tiny" onclick="fetchHistory()">Refresh</button>
+            </div>
+          </div>
+          <div class="audit-stream-wrap">
+            <table class="audit-table">
+              <thead>
+                <tr>
+                  <th class="col-time">TIME</th>
+                  <th class="col-event">EVENT DISPATCH</th>
+                  <th class="col-desc">DESCRIPTION</th>
+                  <th class="col-payload">STRUCTURED METRICS</th>
+                </tr>
+              </thead>
+              <tbody id="audit-table-body">
+                <tr><td colspan="4" class="text-muted">Awaiting telemetry frames...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Clean Industrial Footer -->
+    <footer class="console-footer">
+      <div class="footer-left">
+        <span class="footer-crumb">CSI SMART TECH // AUTOMATION INFRASTRUCTURE</span>
+      </div>
+      <div class="footer-right">
+        <span class="footer-meta">CORE: NODE.JS 24 &middot; SQLITE &middot; ZERO EXTERNAL FRONTEND DEPENDENCIES</span>
+      </div>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
