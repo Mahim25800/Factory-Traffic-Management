@@ -1,0 +1,12 @@
+{
+  "name": "factory-traffic-management",
+  "version": "1.0.0",
+  "description": "Factory Traffic Management System - IoT / Factory Automation",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "start": "npm start --prefix backend",
+    "test": "npm test --prefix backend"
+  }
+}

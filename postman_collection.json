@@ -1,0 +1,183 @@
+{
+  "info": {
+    "name": "Factory Traffic Management System API",
+    "_postman_id": "c1f7a220-413d-4c3e-9f37-123456789abc",
+    "description": "API collection for testing and simulating the Factory Traffic Management System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Get Junction A Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/junctions/A/status",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "junctions", "A", "status"]
+        }
+      }
+    },
+    {
+      "name": "2. Sensor Event - Truck Arrived (North)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event_id\": \"evt-trk-1001\",\n  \"junction_id\": \"A\",\n  \"direction\": \"NORTH\",\n  \"event_type\": \"VEHICLE_ARRIVED\",\n  \"vehicle_id\": \"TRK-501\",\n  \"vehicle_type\": \"TRUCK\",\n  \"sequence_no\": 1501,\n  \"timestamp\": \"2026-10-08T07:15:20Z\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/sensor-events",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "sensor-events"]
+        }
+      }
+    },
+    {
+      "name": "3. Sensor Event - Emergency Arrived (East)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event_id\": \"evt-emg-1002\",\n  \"junction_id\": \"A\",\n  \"direction\": \"EAST\",\n  \"event_type\": \"VEHICLE_ARRIVED\",\n  \"vehicle_id\": \"AMB-911\",\n  \"vehicle_type\": \"EMERGENCY\",\n  \"sequence_no\": 1502,\n  \"timestamp\": \"2026-10-08T07:15:30Z\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/sensor-events",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "sensor-events"]
+        }
+      }
+    },
+    {
+      "name": "4. Sensor Event - Duplicate Submission",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event_id\": \"evt-trk-1001\",\n  \"junction_id\": \"A\",\n  \"direction\": \"NORTH\",\n  \"event_type\": \"VEHICLE_ARRIVED\",\n  \"vehicle_id\": \"TRK-501\",\n  \"vehicle_type\": \"TRUCK\",\n  \"sequence_no\": 1501,\n  \"timestamp\": \"2026-10-08T07:15:20Z\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/sensor-events",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "sensor-events"]
+        }
+      }
+    },
+    {
+      "name": "5. Sensor Event - Vehicle Cleared (North)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event_id\": \"evt-clr-1003\",\n  \"junction_id\": \"A\",\n  \"direction\": \"NORTH\",\n  \"event_type\": \"VEHICLE_CLEARED\",\n  \"vehicle_id\": \"TRK-501\",\n  \"sequence_no\": 1503,\n  \"timestamp\": \"2026-10-08T07:16:10Z\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/sensor-events",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "sensor-events"]
+        }
+      }
+    },
+    {
+      "name": "6. Command - Manual Green Request (West)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"command\": \"MANUAL_GREEN_REQUEST\",\n  \"direction\": \"WEST\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/junctions/A/commands",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "junctions", "A", "commands"]
+        }
+      }
+    },
+    {
+      "name": "7. Command - Return to Automatic",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"command\": \"RETURN_TO_AUTOMATIC\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/junctions/A/commands",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "junctions", "A", "commands"]
+        }
+      }
+    },
+    {
+      "name": "8. Controller Event - Set Offline (Failure)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"device_type\": \"SIGNAL_CONTROLLER\",\n  \"junction_id\": \"A\",\n  \"status\": \"OFFLINE\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/controller-events",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "controller-events"]
+        }
+      }
+    },
+    {
+      "name": "9. Controller Event - Set Online (Recovery)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"device_type\": \"SIGNAL_CONTROLLER\",\n  \"junction_id\": \"A\",\n  \"status\": \"ONLINE\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/controller-events",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "controller-events"]
+        }
+      }
+    },
+    {
+      "name": "10. Get Junction History",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/junctions/A/history?limit=25",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "junctions", "A", "history"],
+          "query": [{ "key": "limit", "value": "25" }]
+        }
+      }
+    }
+  ]
+}
