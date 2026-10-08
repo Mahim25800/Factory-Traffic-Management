@@ -1,0 +1,14 @@
+{
+  "name": "factory-traffic-management-backend",
+  "version": "1.0.0",
+  "description": "Factory Traffic Management System - Backend Intern Assessment",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}

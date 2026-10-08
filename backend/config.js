@@ -1,0 +1,53 @@
+module.exports = {
+  PORT: process.env.PORT || 3000,
+
+  // Signal timings in milliseconds for responsive simulation
+  SIGNAL_TIMINGS: {
+    GREEN_DURATION_MS: 10000,
+    YELLOW_DURATION_MS: 3000,
+    ALL_RED_DURATION_MS: 1500,
+    MANUAL_TIMEOUT_MS: 60000,
+    CONTROLLER_ACK_TIMEOUT_MS: 5000
+  },
+
+  SIGNAL_STATES: {
+    RED: 'RED',
+    YELLOW: 'YELLOW',
+    GREEN: 'GREEN'
+  },
+
+  PHASES: {
+    NORTH_SOUTH: 'NORTH_SOUTH',
+    EAST_WEST: 'EAST_WEST',
+    ALL_RED: 'ALL_RED'
+  },
+
+  PHASE_DIRECTIONS: {
+    NORTH_SOUTH: ['NORTH', 'SOUTH'],
+    EAST_WEST: ['EAST', 'WEST']
+  },
+
+  DIRECTIONS: ['NORTH', 'SOUTH', 'EAST', 'WEST'],
+
+  // Priority order: EMERGENCY > TRUCK > FORKLIFT > EMPLOYEE_VEHICLE
+  VEHICLE_PRIORITIES: {
+    EMERGENCY: 100,
+    TRUCK: 15,
+    FORKLIFT: 10,
+    EMPLOYEE_VEHICLE: 5
+  },
+
+  MODES: {
+    AUTOMATIC: 'AUTOMATIC',
+    MANUAL: 'MANUAL',
+    EMERGENCY: 'EMERGENCY',
+    FAILURE: 'FAILURE'
+  },
+
+  CONTROLLER_STATUS: {
+    ONLINE: 'ONLINE',
+    OFFLINE: 'OFFLINE',
+    DEGRADED: 'DEGRADED',
+    UNKNOWN: 'UNKNOWN'
+  }
+};
